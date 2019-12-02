@@ -1,6 +1,7 @@
 class profile::foreman{
     include foreman
-    class {'::foreman_proxy':
+    include foreman_proxy
+    class {'foreman_proxy':
       puppet   => true,
       puppetca => true,
       tftp     => false,
