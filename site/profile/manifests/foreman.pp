@@ -1,5 +1,4 @@
 class profile::foreman{
-    include epel
     include foreman
     #    yum::install { 'foreman-installer':
     #      ensure => present,
