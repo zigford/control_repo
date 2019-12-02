@@ -2,6 +2,7 @@ node default {
 }
 node 'master.puppet.vm' {
   include role::master_server
+  include epel
   file { '/root/README':
     ensure  => file,
     content => "Welcome to ${fqdn}\n",
