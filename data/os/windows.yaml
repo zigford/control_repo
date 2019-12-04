@@ -1,0 +1,277 @@
+---
+profile::soe_w::dsc_registry::registry:
+  reg_RDS-Serverlic:
+    dsc_key: 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services'
+    dsc_valuename: 'LicenseServers'
+    dsc_valuedata: 'rdslic.usc.internal'
+    dsc_valuetype: 'String'
+    dsc_ensure: 'Present'
+    tag: 'Windows_RDS'
+  reg_RDS-Lic_Mode:
+    dsc_key: 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services'
+    dsc_valuename: 'LicensingMode'
+    dsc_valuedata: '1'
+    dsc_valuetype: 'String'
+    dsc_ensure: 'Present'
+    tag: 'Windows_RDS'
+  reg_win-shortdate:
+    dsc_key: 'HKEY_USERS\.Default\Control Panel\International'
+    dsc_valuename: 'sShortDate'
+    dsc_valuedata: 'dd/MM/yyyy'
+    dsc_valuetype: 'String'
+    dsc_ensure: 'Present'
+    dsc_force: true
+    tag: 'Windows_Short_date'
+  registry_winfirewalldomain:
+    dsc_ensure: 'Present'
+    dsc_key: 'HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\services\SharedAccess\Parameters\FirewallPolicy\DomainProfile'
+    dsc_valuename: 'enablefirewall'
+    dsc_valuedata: '1'
+    dsc_valuetype: 'DWord'
+    tag: 'Windows_Firewall'
+  registry_winfirewallpublic:
+    dsc_ensure: 'Present'
+    dsc_key: 'HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\services\SharedAccess\Parameters\FirewallPolicy\PublicProfile'
+    dsc_valuename: 'enablefirewall'
+    dsc_valuedata: '1'
+    dsc_valuetype: 'DWord'
+    tag: 'Windows_Firewall'
+  registry_winfirewallprivate:
+    dsc_ensure: 'Present'
+    dsc_key: 'HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\services\SharedAccess\Parameters\FirewallPolicy\StandardProfile'
+    dsc_valuename: 'enablefirewall'
+    dsc_valuedata: '1'
+    dsc_valuetype: 'DWord'
+    tag: 'Windows_Firewall'
+
+profile::soe_w::dsc_features::features:
+  install_RDS-Server:
+    dsc_displayname: 'Remote Desktop Session Host'
+    dsc_name: 'RDS-RD-Server'
+    dsc_ensure: 'Present'
+    tag: 'Windows_RDS'
+  install_RDS-Server-Tools:
+    dsc_displayname: 'Remote Desktop Licensing Diagnoser Tools'
+    dsc_name: 'RSAT-RDS-Licensing-Diagnosis-UI'
+    dsc_ensure: 'Present'
+    tag: 'Windows_RDS'
+  uninstall_defender-Features:
+    dsc_displayname: 'Windows Defender Features'
+    dsc_name: 'Windows-Defender-Features'
+    dsc_ensure: 'absent'
+    tag: 'No_Windows_Defender'
+  uninstall_defender:
+    dsc_displayname: 'Windows Defender'
+    dsc_name: 'Windows-Defender'
+    dsc_ensure: 'absent'
+    tag: 'No_Windows_Defender'
+  uninstall_defenderGUI:
+    dsc_displayname: 'GUI for Windows Defender'
+    dsc_name: 'Windows-Defender-Gui'
+    dsc_ensure: 'absent'
+    tag: 'No_Windows_Defender'
+
+profile::soe_w::services::running_services:
+  - 'VMTools'
+  - 'RpcSs'
+
+profile::soe_w::services::enabled_services:
+  - 'wuauserv'
+  - 'VSS'
+
+profile::soe_w::services::disabled_services:
+  disable_XblGameSave:
+    name: 'XblGameSave'
+    enable: 'false'
+    tag: 'Windows_Service_XblGameSave'
+  disable_XblAuthManager:
+    name: 'XblAuthManager'
+    enable: 'false'
+    tag: 'Windows_Service_XblAuthManager'
+  disable_WSearch:
+    name: 'WSearch'
+    enable: 'false'
+    tag: 'Windows_Service_WSearch'
+  disable_WpnService:
+    name: 'WpnService'
+    enable: 'false'
+    tag: 'Windows_Service_WpnService'
+  disable_icssvc:
+    name: 'icssvc'
+    enable: 'false'
+    tag: 'Windows_Service_icssvc'
+  disable_wisvc:
+    name: 'wisvc'
+    enable: 'false'
+    tag: 'Windows_Service_wisvc'
+  disable_stisvc:
+    name: 'stisvc'
+    enable: 'false'
+    tag: 'Windows_Service_stisvc'
+  disable_FrameServer:
+    name: 'FrameServer'
+    enable: 'false'
+    tag: 'Windows_Service_FrameServer'
+  disable_AudioEndpointBuilder:
+    name: 'AudioEndpointBuilder'
+    enable: 'false'
+    tag: 'Windows_Service_AudioEndpointBuilder'
+  disable_Audiosrv:
+    name: 'Audiosrv'
+    enable: 'false'
+    tag: 'Windows_Service_Audiosrv'
+  disable_WalletService:
+    name: 'WalletService'
+    enable: 'false'
+    tag: 'Windows_Service_WalletService'
+  disable_UevAgentService:
+    name: 'UevAgentService'
+    enable: 'false'
+    tag: 'Windows_Service_UevAgentService'
+  disable_upnphost:
+    name: 'upnphost'
+    enable: 'false'
+    tag: 'Windows_Service_upnphost'
+  disable_TabletInputService:
+    name: 'TabletInputService'
+    enable: 'false'
+    tag: 'Windows_Service_TabletInputService'
+  disable_OneSyncSvc:
+    name: 'OneSyncSvc'
+    enable: 'false'
+    tag: 'Windows_Service_OneSyncSvc'
+  disable_WiaRpc:
+    name: 'WiaRpc'
+    enable: 'false'
+    tag: 'Windows_Service_WiaRpc'
+  disable_SSDPSRV:
+    name: 'SSDPSRV'
+    enable: 'false'
+    tag: 'Windows_Service_SSDPSRV'
+  disable_ScDeviceEnum:
+    name: 'ScDeviceEnum'
+    enable: 'false'
+    tag: 'Windows_Service_ScDeviceEnum'
+  disable_SCardSvr:
+    name: 'SCardSvr'
+    enable: 'false'
+    tag: 'Windows_Service_SCardSvr'
+  disable_ShellHWDetection:
+    name: 'ShellHWDetection'
+    enable: 'false'
+    tag: 'Windows_Service_ShellHWDetection'
+  disable_SensorService:
+    name: 'SensorService'
+    enable: 'false'
+    tag: 'Windows_Service_SensorService'
+  disable_SensrSvc:
+    name: 'SensrSvc'
+    enable: 'false'
+    tag: 'Windows_Service_SensrSvc'
+  disable_SensorDataService:
+    name: 'SensorDataService'
+    enable: 'false'
+    tag: 'Windows_Service_SensorDataService'
+  disable_RemoteAccess:
+    name: 'RemoteAccess'
+    enable: 'false'
+    tag: 'Windows_Service_RemoteAccess'
+  disable_RmSvc:
+    name: 'RmSvc'
+    enable: 'false'
+    tag: 'Windows_Service_RmSvc'
+  disable_QWAVE:
+    name: 'QWAVE'
+    enable: 'false'
+    tag: 'Windows_Service_QWAVE'
+  disable_PcaSvc:
+    name: 'PcaSvc'
+    enable: 'false'
+    tag: 'Windows_Service_PcaSvc'
+  disable_PrintNotify:
+    name: 'PrintNotify'
+    enable: 'false'
+    tag: 'Windows_Service_PrintNotify'
+  disable_Spooler:
+    name: 'Spooler'
+    enable: 'false'
+    tag: 'Windows_Service_Spooler'
+  disable_PhoneSvc:
+    name: 'PhoneSvc'
+    enable: 'false'
+    tag: 'Windows_Service_PhoneSvc'
+  disable_CscService:
+    name: 'CscService'
+    enable: 'false'
+    tag: 'Windows_Service_CscService'
+  disable_NcbService:
+    name: 'NcbService'
+    enable: 'false'
+    tag: 'Windows_Service_NcbService'
+  disable_NetTcpPortSharing:
+    name: 'NetTcpPortSharing'
+    enable: 'false'
+    tag: 'Windows_Service_NetTcpPortSharing'
+  disable_NgcCtnrSvc:
+    name: 'NgcCtnrSvc'
+    enable: 'false'
+    tag: 'Windows_Service_NgcCtnrSvc'
+  disable_NgcSvc:
+    name: 'NgcSvc'
+    enable: 'false'
+    tag: 'Windows_Service_NgcSvc'
+  disable_AppVClient:
+    name: 'AppVClient'
+    enable: 'false'
+    tag: 'Windows_Service_AppVClient'
+  disable_wlidsvc:
+    name: 'wlidsvc'
+    enable: 'false'
+    tag: 'Windows_Service_wlidsvc'
+  disable_lltdsvc:
+    name: 'lltdsvc'
+    enable: 'false'
+    tag: 'Windows_Service_lltdsvc'
+  disable_SharedAccess:
+    name: 'SharedAccess'
+    enable: 'false'
+    tag: 'Windows_Service_SharedAccess'
+  disable_lfsvc:
+    name: 'lfsvc'
+    enable: 'false'
+    tag: 'Windows_Service_lfsvc'
+  disable_MapsBroker:
+    name: 'MapsBroker'
+    enable: 'false'
+    tag: 'Windows_Service_MapsBroker'
+  disable_dmwappushservice:
+    name: 'dmwappushservice'
+    enable: 'false'
+    tag: 'Windows_Service_dmwappushservice'
+  disable_Browser:
+    name: 'Browser'
+    enable: 'false'
+    tag: 'Windows_Service_Browser'
+  disable_CDPUserSvc:
+    name: 'CDPUserSvc'
+    enable: 'false'
+    tag: 'Windows_Service_CDPUserSvc'
+  disable_bthserv:
+    name: 'bthserv'
+    enable: 'false'
+    tag: 'Windows_Service_bthserv'
+  disable_tzautoupdate:
+    name: 'tzautoupdate'
+    enable: 'false'
+    tag: 'Windows_Service_tzautoupdate'
+  disable_AxInstSV:
+    name: 'AxInstSV'
+    enable: 'false'
+    tag: 'Windows_Service_AxInstSV'
+
+class profile::soe_w::network_settings::adaptorsettings:
+  win_mtu:
+    dsc_networkadaptername: 'Ethernet0'
+    dsc_registrykeyword: '*JumboPacket'
+    dsc_registryvalue: '9014'
+    ensure: 'present'

@@ -1,0 +1,24 @@
+---
+#
+# Lookup hints for merging hashes or arrays. We must enable this for any variables
+# where we expect to merge host or os specific values with the common settings.
+lookup_options:
+  profile::ntp::ntp_options:
+    merge: hash
+  profile::hosts::extrahosts:
+    merge: hash
+  profile::ssh::ssh_options:
+    merge: hash
+  profile::soe_l::admin_accounts:
+    merge: deep
+#
+# Ensure that code manager can deploy any branches with non-standard characters
+puppet_enterprise::master::code_manager::invalid_branches: 'correct'
+#
+# NTP
+profile::ntp::ntp_options:
+  servers: ['ntp.usc.edu.au']
+#
+# Resolver
+profile::resolver::resolver_nameservers: ['172.17.29.20','172.17.30.20']
+profile::resolver::resolver_searchpath: ['usc.internal']
